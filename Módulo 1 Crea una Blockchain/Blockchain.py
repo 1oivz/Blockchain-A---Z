@@ -19,10 +19,10 @@ import hashlib #Librería de hashing
 import json #Javascript object notation
 from flask import Flask, jsonify #Flask = Constructor jsonify = Convertir a json.
 
-#Parte 1 - Crear la cadena de Bloques
+# Parte 1 - Crear la cadena de Bloques
 class Blockchain:
     
-    def __init__(self):  #Creamos un constructor
+    def __init__(self):  # Creamos un constructor
         self.chain = []
         self.create_block(proof = 1, previous_hash = '0')
         
@@ -34,10 +34,10 @@ class Blockchain:
         self.chain.append(block) #Añadimos el bloque a la cadena.
         return block 
         
-    def get_previous_block(self): #Creamos una función para obtener el bloque anterior.
-        return self.chain[-1] #Devolvemos el último bloque de la cadena [-1].
+    def get_previous_block(self): # Creamos una función para obtener el bloque anterior.
+        return self.chain[-1] # Devolvemos el último bloque de la cadena [-1].
     
-    #Creando Proof of Work
+    # Creando Proof of Work
     
     def proof_of_work(self, previous_proof): #Creamos una función para la prueba de trabajo.
         new_proof = 1 #Damos a como valor de origen 1
@@ -74,17 +74,17 @@ class Blockchain:
         return True #Si todo sale como es debido, devolvemos True.
             
         
-#Parte 2 - Minado de un Bloque de la Cadena
+# Parte 2 - Minado de un Bloque de la Cadena
 
-#Crear una aplicación web
+# Crear una aplicación web
 app = Flask(__name__)
 
 
-#Crear una Blockchain
+# Crear una Blockchain
 blockchain = Blockchain()
 
-#Minar un nuevo bloque
-@app.route("/mine_block",methods=['GET'])
+# Minar un nuevo bloque
+@app.route("/mine_block", methods=['GET'])
 def mine_block():
     previous_block = blockchain.get_previous_block() #Obtenemos el bloque previo.
     previous_proof = previous_block['proof'] #Obtenemos la prueba de trabajo previa mediante la prueba del bloque anterior
@@ -98,11 +98,14 @@ def mine_block():
                 'proof' : block['proof'],
                 'previous_hash': block['previous_hash']}
     return jsonify(response), 200
-                
 
+#Obtener la cadena de bloques al completo.               
+@app.route("/get_chain", methods=['GET'])
+def get_chain():
+    response = {'chain': blockchain.chain,
+                'length': len(blockchain.chain)}
+    return jsonify(response), 200
 
-
-
-
-
+# Ejecutar la app
+app.run(host = '0.0.0.0', port = 5000)
 

@@ -78,6 +78,8 @@ class Blockchain:
 
 # Crear una aplicación web
 app = Flask(__name__)
+#Si se obtiene un error 500, actualizar flask, reiniciar spyder y ejecutar la siguiente línea.
+#app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 
 # Crear una Blockchain

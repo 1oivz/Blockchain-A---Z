@@ -108,16 +108,15 @@ def get_chain():
                 'length': len(blockchain.chain)}
     return jsonify(response), 200
 
-# Ejecutar la app
-app.run(host = '0.0.0.0', port = 5000)
-
 #Comprobar si la Blockchain es compatible con Flask
-@app.route("/is_valid", methods = ['GET'])
+@app.route("/is_valid", methods=['GET'])
 def is_valid():
-    is_valid = blockchain.is_chain_valid(blockchain.chain)
+    is_valid = blockchain.is_chain_valid(blockchain.chain) #Creamos la variable para determinar si la Blockchain es válida.
     if is_valid:
         response = {'message': 'Correcto. La cadena de bloques es válida.'}
-    else:
+    else: 
         response = {'message': 'Error. La cadena de bloques no es válida.'}
     return jsonify(response), 200
 
+# Ejecutar la app
+app.run(host = '0.0.0.0', port = 5000)

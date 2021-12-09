@@ -26,10 +26,11 @@ from urllib.parse import urlparse
 
 class Blockchain:
     
-    def __init__(self):  
+    def __init__(self):  #Constructor.
         self.chain = []
         self.transactions = [] #Creamos una lista vacía para las transacciones. La posición será antes del bloque génesis.
         self.create_block(proof = 1, previous_hash = '0')
+        self.node_set = set() #Creamos un conjunto de nodos vacíos. Un conjunto significa que estos no tienen que seguir un orden.
         
     def create_block(self, proof, previous_hash):
         block = {'index' : len(self.chain)+1, 
@@ -87,6 +88,10 @@ class Blockchain:
         return previous_block['index'] + 1 #Devolvemos el bloque siguiente, que será el índice donde aparecerá esa transacción.
         #Tenemos que devolver el índice del nuevo bloque que se generará a continuación.
         
+    
+    def add_node(self, address): #Adress lo utilizamos para poder saber la dirección de ese nuevo nodo.
+        parsed_url = urlparse(address)        
+        self.nodes.add(parsed_url.netloc) #Me quedo solamente con el campo netloc, es decir, solo guardamos la dirección de cada uno de los nodos que se den de alta en nuestra criptomoneda.
         
 # Parte 2 - Minado de un Bloque de la Cadena
 
